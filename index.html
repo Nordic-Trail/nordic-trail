@@ -113,6 +113,13 @@ if(p.date){
   popup.appendChild(dateInfo);
 }
 
+if(p.updatedAt){
+  const updateInfo=document.createElement('div');
+  updateInfo.textContent='Zaktualizowano: '+
+    new Date(p.updatedAt).toLocaleString('pl-PL');
+  popup.appendChild(updateInfo);
+}
+
    const coords=document.createElement('div');
    coords.textContent=p.lat.toFixed(5)+', '+p.lon.toFixed(5);
    popup.appendChild(coords);
@@ -143,7 +150,9 @@ edit.onclick=()=>{
     return;
   }
   p.status=options[index];
-  p.date=new Date().toISOString();
+  
+p.updatedAt=new Date().toISOString();
+
   save();
   render();
 };
