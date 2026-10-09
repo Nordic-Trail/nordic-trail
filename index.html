@@ -85,9 +85,17 @@ function render(){
  points.forEach((p,i)=>{
    
 const icons={gate:'🚧',closed:'⛔',place:'🌲'};
+   const statusColors={
+  gate:{
+    'Otwarty':'#22c55e',
+    'Zamknięty':'#ef4444',
+    'Nieznany':'#eab308'
+  }
+};
+const statusColor=statusColors[p.kind]?.[p.status];
 const icon=L.divIcon({
   className:'',
-  html:`<div style="width:38px;height:38px;border:3px solid white;border-radius:50%;background:#172720;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 2px 8px #000">${icons[p.kind]||'📍'}</div>`,
+  html:`<div style="width:38px;height:38px;border:3px solid ${statusColor || 'white'};border-radius:50%;background:#172720;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 2px 8px #000">${icons[p.kind]||'📍'}</div>`,
   iconSize:[38,38],
   iconAnchor:[19,19]
 });
