@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NORDIC TRAIL</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
 :root{color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:#101b17;color:#f2f0e7;font-family:Arial,sans-serif}
@@ -47,6 +48,14 @@ footer{text-align:center;color:#9baa9b;font-size:11px;padding:18px}
 <footer>Map data © OpenStreetMap contributors</footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+  // NORDIC TRAIL - polaczenie z Supabase
+const SUPABASE_URL = 'https://kwhkxedmtehqplvnmjka.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_9NwkykVx5UuNhnyPlD5vFw_t7zfqSvE';
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 const map=L.map('map').setView([62.2,15.2],5);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
  maxZoom:19,
