@@ -123,6 +123,30 @@ if(p.date){
    const text=document.createElement('div');
    text.textContent=(i+1)+'. '+labels[p.kind]+' — '+(p.note||'Bez opisu');
    row.appendChild(text);
+   
+const edit=document.createElement('button');
+edit.className='secondary';
+edit.textContent='Zmień status';
+edit.onclick=()=>{
+  const options=statuses[p.kind];
+  const choice=prompt(
+    'Aktualny status: '+(p.status||'Brak')+'\n\n'+
+    options.map((s,i)=>(i+1)+'. '+s).join('\n')+
+    '\n\nWpisz numer nowego statusu:'
+  );
+  if(choice===null)return;
+  const index=Number(choice)-1;
+  if(!Number.isInteger(index)||!options[index]){
+    alert('Nieprawidłowy numer statusu');
+    return;
+  }
+  p.status=options[index];
+  p.date=new Date().toISOString();
+  save();
+  render();
+};
+row.appendChild(edit);
+
    const del=document.createElement('button');
    del.className='secondary';
    del.textContent='Usuń punkt';
