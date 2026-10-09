@@ -59,6 +59,13 @@ const labels={
  closed:'Droga zamknięta / nieprzejezdna',
  place:'Ciekawe miejsce'
 };
+  
+const statuses={
+  gate:['Otwarty','Zamknięty','Nieznany'],
+  closed:['Przejezdna','Nieprzejezdna','Do sprawdzenia'],
+  place:['Dostępne','Niedostępne']
+};
+
 let points=[];
 try{points=JSON.parse(localStorage.getItem('nordicTrailPoints')||'[]')}catch(e){}
 const markers=L.layerGroup().addTo(map);
@@ -93,6 +100,19 @@ const marker=L.marker([p.lat,p.lon],{icon}).addTo(markers);
    const desc=document.createElement('p');
    desc.textContent=p.note||'Bez opisu';
    popup.appendChild(desc);
+   
+if(p.status){
+  const statusInfo=document.createElement('p');
+  statusInfo.textContent='Status: '+p.status;
+  popup.appendChild(statusInfo);
+}
+if(p.date){
+  const dateInfo=document.createElement('small');
+  dateInfo.textContent='Zgłoszono: '+
+    new Date(p.date).toLocaleString('pl-PL');
+  popup.appendChild(dateInfo);
+}
+
    const coords=document.createElement('small');
    coords.textContent=p.lat.toFixed(5)+', '+p.lon.toFixed(5);
    popup.appendChild(coords);
@@ -114,11 +134,26 @@ const marker=L.marker([p.lat,p.lon],{icon}).addTo(markers);
 map.on('click',e=>{
  const kind=document.getElementById('kind').value;
  const note=document.getElementById('note').value.trim();
- points.push({
-   kind,note,
-   lat:Number(e.latlng.lat.toFixed(6)),
-   lon:Number(e.latlng.lng.toFixed(6))
- });
+ 
+const status=prompt(
+  'Wybierz status:\n'+
+  statuses[kind].map((s,i)=>(i+1)+'. '+s).join('\n')+
+  '\n\nWpisz numer statusu:'
+);
+if(status===null)return;
+const statusIndex=Number(status)-1;
+if(!Number.isInteger(statusIndex) || !statuses[kind][statusIndex]){
+  alert('Nieprawidłowy numer statusu');
+  return;
+}
+points.push({
+  kind,note,
+  status:statuses[kind][statusIndex],
+  date:new Date().toISOString(),
+  lat:Number(e.latlng.lat.toFixed(6)),
+  lon:Number(e.latlng.lng.toFixed(6))
+});
+
  document.getElementById('note').value='';
  save();
 });
