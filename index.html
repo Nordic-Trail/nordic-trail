@@ -107,13 +107,13 @@ if(p.status){
   popup.appendChild(statusInfo);
 }
 if(p.date){
-  const dateInfo=document.createElement('small');
+  const dateInfo=document.createElement('div');
   dateInfo.textContent='Zgłoszono: '+
     new Date(p.date).toLocaleString('pl-PL');
   popup.appendChild(dateInfo);
 }
 
-   const coords=document.createElement('small');
+   const coords=document.createElement('div');
    coords.textContent=p.lat.toFixed(5)+', '+p.lon.toFixed(5);
    popup.appendChild(coords);
    marker.bindPopup(popup);
