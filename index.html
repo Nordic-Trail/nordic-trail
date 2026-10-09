@@ -83,6 +83,18 @@ function save(){
  localStorage.setItem('nordicTrailPoints',JSON.stringify(points));
  render();
 }
+async function loadPublicPoints(){
+  const {data, error} = await db
+    .from('map_points')
+    .select('id,kind,status,note,lat,lon,created_at');
+
+  if(error){
+    console.error('Błąd pobierania punktów:', error.message);
+    return;
+  }
+
+  console.log('Pobrano punktów z Supabase:', data.length);
+}  
 function render(){
  markers.clearLayers();
  const list=document.getElementById('points');
@@ -92,7 +104,9 @@ function render(){
    return;
  }
  points.forEach((p,i)=>{
-   
+  
+
+  
 const icons={gate:'🚧',closed:'⛔',place:'🌲'};
    const statusColors={
   gate:{
@@ -253,6 +267,7 @@ ${wpts}
  setTimeout(()=>URL.revokeObjectURL(url),1000);
 };
 render();
+  loadPublicPoints();
 </script>
 </body>
 </html>
