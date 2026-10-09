@@ -121,7 +121,9 @@ if(p.date){
    const row=document.createElement('div');
    row.style.cssText='padding:9px 0;border-bottom:1px solid #35483c';
    const text=document.createElement('div');
-   text.textContent=(i+1)+'. '+labels[p.kind]+' — '+(p.note||'Bez opisu');
+   text.textContent=(i+1)+'. '+labels[p.kind]+
+  ' — '+(p.note||'Bez opisu')+
+  ' | Status: '+(p.status||'Brak danych');
    row.appendChild(text);
    
 const edit=document.createElement('button');
